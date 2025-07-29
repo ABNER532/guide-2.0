@@ -1,21 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Login Page</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Welcome</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f0f4f7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      margin: 10px;
+      padding: 15px 30px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      background-color: #0066cc;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #004a99;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Welcome Back</h2>
-    <form id="loginForm">
-      <input type="text" placeholder="Username" required>
-      <input type="password" placeholder="Password" required>
-      <div class="button-group">
-        <button onclick="loginUser()" type="submit">Login</button>
-        <button onclick="location.href='signup.html'" type="button">Create Account</button>
-      </div>
-    </form>
-  </div>
+  <h1>Welcome to My App</h1>
+  <button class="btn" onclick="location.href='create.html'">Create Account</button>
+  <button class="btn" onclick="location.href='login.html'">Login</button>
 </body>
 </html>
