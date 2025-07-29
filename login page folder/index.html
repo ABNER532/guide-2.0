@@ -18,8 +18,12 @@
       margin-bottom: 30px;
     }
 
+    .button-container {
+      display: flex;
+      gap: 20px;
+    }
+
     .btn {
-      margin: 10px;
       padding: 15px 30px;
       font-size: 16px;
       cursor: pointer;
@@ -37,7 +41,9 @@
 </head>
 <body>
   <h1>Welcome to My App</h1>
-  <button class="btn" onclick="location.href='create.html'">Create Account</button>
-  <button class="btn" onclick="location.href='login.html'">Login</button>
+  <div class="button-container">
+    <button class="btn" onclick="location.href='create.html'">Create Account</button>
+    <button class="btn" onclick="location.href='login.html'">Login</button>
+  </div>
 </body>
 </html>
