@@ -1,46 +1,82 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Welcome</title>
+  <meta charset="UTF-8">
+  <title>GUIDE Welcome</title>
   <style>
     body {
-      font-family: sans-serif;
-      background-color: #f0f4f7;
+      margin: 0;
+      padding: 0;
+      background-color: #eef3f8;
+      font-family: 'Segoe UI', sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Entrance Animation */
+    @keyframes fadeUp {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Logo Pulse */
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0px rgba(0,0,0,0.1); }
+      50% { box-shadow: 0 0 20px rgba(0,0,0,0.2); }
+    }
+
+    .logo {
+      width: 140px;
+      height: auto;
+      margin-bottom: 25px;
+      border-radius: 12px;
+      animation: pulse 2.5s infinite ease-in-out, fadeUp 1s ease forwards;
     }
 
     h1 {
-      color: #333;
-      margin-bottom: 30px;
+      font-size: 28px;
+      color: #1a1a1a;
+      margin-bottom: 35px;
+      letter-spacing: 1px;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards;
+      animation-delay: 0.3s;
     }
 
     .button-container {
       display: flex;
-      gap: 20px;
+      gap: 16px;
+      width: 320px;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards;
+      animation-delay: 0.6s;
     }
 
     .btn {
-      padding: 15px 30px;
-      font-size: 16px;
-      cursor: pointer;
+      flex: 1;
+      padding: 14px 0;
+      background-color: #0078d7;
+      color: white;
       border: none;
       border-radius: 8px;
-      color: white;
-      background-color: #0066cc;
-      transition: background-color 0.3s;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
     }
 
     .btn:hover {
-      background-color: #004a99;
+      background-color: #005fa3;
+      box-shadow: 0 0 10px rgba(0, 120, 215, 0.4);
     }
   </style>
 </head>
 <body>
-  <h1>Welcome to My App</h1>
+  <img src="logo.jpg" alt="GUIDE Logo" class="logo">
+  <h1>WELCOME TO GUIDE</h1>
   <div class="button-container">
     <button class="btn" onclick="location.href='create.html'">Create Account</button>
     <button class="btn" onclick="location.href='login.html'">Login</button>
