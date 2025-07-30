@@ -1,0 +1,19 @@
+<form onsubmit="return validateLogin()">
+  <input type="email" placeholder="Email Address" required>
+  <input type="password" id="password" placeholder="Password" required>
+  <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+  <button class="btn" type="submit">Login</button>
+  <button class="btn back-btn" type="button" onclick="location.href='index.html'">Back</button>
+</form>
+
+<script>
+  function validateLogin() {
+    const pw = document.getElementById("password").value;
+    const confirmPw = document.getElementById("confirmPassword").value;
+    if (pw !== confirmPw) {
+      alert("Passwords do not match. Please try again.");
+      return false;
+    }
+    return true;
+  }
+</script>
