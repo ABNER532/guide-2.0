@@ -1,0 +1,32 @@
+body {
+  font-family: sans-serif;
+  padding: 20px;
+  background: #f0f4f7;
+}
+h2 {
+  color: #0078D7;
+}
+input, select, textarea, button {
+  display: block;
+  margin: 10px 0;
+  padding: 8px;
+  width: 100%;
+}
+button {
+  background-color: #0078D7;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+nav li {
+  margin: 5px 0;
+}
+a {
+  text-decoration: none;
+  color: #0078D7;
+  font-weight: bold;
+}
