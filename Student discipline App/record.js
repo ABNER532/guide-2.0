@@ -1,39 +1,34 @@
-// 🔁 Load students into dropdown
+// Load saved behaviours
 window.addEventListener("load", function() {
-  const students = JSON.parse(localStorage.getItem("students")) || [];
-  const dropdown = document.getElementById("studentDropdown");
-
-  students.forEach(function(name) {
-    const option = document.createElement("option");
-    option.value = name;
-    option.textContent = name;
-    dropdown.appendChild(option);
-  });
-
-  const behaviourRecords = JSON.parse(localStorage.getItem("behaviour")) || [];
-  behaviourRecords.forEach(addBehaviourToUI);
+  const records = JSON.parse(localStorage.getItem("behaviourRecords")) || [];
+  records.forEach(addRecordToUI);
 });
 
-// ➕ Record behaviour
-document.getElementById("behaviourForm").addEventListener("submit", function(event) {
-  event.preventDefault();
+// Handle form submission
+document.getElementById("behaviourForm").addEventListener("submit", function(e) {
+  e.preventDefault();
 
-  const student = document.getElementById("studentDropdown").value;
-  const note = document.getElementById("behaviourInput").value.trim();
-  if (!student || !note) return;
+  const name = document.getElementById("studentName").value.trim();
+  const type = document.getElementById("behaviourType").value;
+  const notes = document.getElementById("notes").value.trim();
+  const date = document.getElementById("date").value || new Date().toISOString().split("T")[0];
 
-  const record = `${student}: ${note}`;
-  const saved = JSON.parse(localStorage.getItem("behaviour")) || [];
+  if (!name || !type || !notes) return;
+
+  const record = { name, type, notes, date };
+  const saved = JSON.parse(localStorage.getItem("behaviourRecords")) || [];
   saved.push(record);
-  localStorage.setItem("behaviour", JSON.stringify(saved));
+  localStorage.setItem("behaviourRecords", JSON.stringify(saved));
 
-  addBehaviourToUI(record);
-  document.getElementById("behaviourInput").value = "";
+  addRecordToUI(record);
+
+  // Clear form
+  document.getElementById("behaviourForm").reset();
 });
 
-// ➕ Show behaviour note
-function addBehaviourToUI(text) {
+// Add record to UI
+function addRecordToUI(record) {
   const li = document.createElement("li");
-  li.textContent = text;
+  li.textContent = `${record.date} - ${record.name} (${record.type}): ${record.notes}`;
   document.getElementById("behaviourList").appendChild(li);
 }

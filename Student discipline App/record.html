@@ -2,19 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Behaviour Recording</title>
+  <title>Record Behaviour</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h2>Student Behaviour Recording</h2>
+  <h2>Record Student Behaviour</h2>
 
   <form id="behaviourForm">
-    <select id="studentDropdown" required>
-      <option value="">Select Student</option>
+    <!-- Student Name -->
+    <label for="studentName">Student Name:</label>
+    <input type="text" id="studentName" placeholder="Enter student name" required>
+
+    <!-- Behaviour Type -->
+    <label for="behaviourType">Behaviour Type:</label>
+    <select id="behaviourType" required>
+      <option value="">Select type</option>
+      <option value="Positive">Positive</option>
+      <option value="Neutral">Neutral</option>
+      <option value="Negative">Negative</option>
     </select>
 
-    <input type="text" id="behaviourInput" placeholder="Enter behaviour note" required>
-    <button type="submit">Record Behaviour</button>
+    <!-- Notes -->
+    <label for="notes">Notes:</label>
+    <textarea id="notes" placeholder="Enter notes..." required></textarea>
+
+    <!-- Date -->
+    <label for="date">Date:</label>
+    <input type="date" id="date">
+
+    <!-- Submit -->
+    <button type="submit">Submit Behaviour</button>
   </form>
 
   <ul id="behaviourList"></ul>
