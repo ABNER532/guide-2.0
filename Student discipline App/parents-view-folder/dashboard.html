@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Parent Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+
+  <header>
+    <h1>Parent Dashboard</h1>
+    <button id="logoutBtn">Logout</button>
+  </header>
+
+  <main>
+    <!-- Summary Stats -->
+    <section id="summary">
+      <div class="stat">
+        Total Incidents: <span id="totalIncidents">0</span>
+      </div>
+      <div class="stat">
+        Days with Incidents: <span id="uniqueDays">0</span>
+      </div>
+    </section>
+
+    <!-- Incidents Table -->
+    <section id="incidents">
+      <table id="incidentsTable">
+        <thead>
+          <tr>
+            <th>Date & Time</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Rows get injected here by dashboard.js -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
