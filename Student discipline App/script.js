@@ -1,23 +1,43 @@
-// script.js
+const studentForm = document.getElementById('studentForm');
+const studentInput = document.getElementById('studentInput');
+const studentList = document.getElementById('studentList');
+const searchInput = document.getElementById('searchInput');
 
-document.getElementById('loginForm').addEventListener('submit', function(e) {
+let students = JSON.parse(localStorage.getItem('students')) || [];
+
+studentForm.addEventListener('submit', function (e) {
   e.preventDefault();
+  const name = studentInput.value.trim();
 
-  // 1. Read and trim inputs
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value;
+  if (name === '') return;
 
-  // 2. Grab the users map
-  const users = JSON.parse(localStorage.getItem('users') || '{}');
+  const nameLower = name.toLowerCase();
+  const alreadyExists = students.some(student => student.toLowerCase() === nameLower);
 
-  // 3. Validate
-  if (users[username] === password) {
-    // success: save current user and go to dashboard
-    localStorage.setItem('currentUser', username);
-    alert('Login successful!');
-    window.location.href = 'dashboard.html';
-  } else {
-    // fail
-    alert('Invalid username or password.');
+  if (alreadyExists) {
+    alert(`"${name}" is already in the list.`);
+    return;
   }
+
+  students.push(name);
+  localStorage.setItem('students', JSON.stringify(students));
+  studentInput.value = '';
+  renderStudents();
 });
+
+searchInput.addEventListener('input', renderStudents);
+
+function renderStudents() {
+  const query = searchInput.value.toLowerCase();
+  studentList.innerHTML = '';
+  students
+    .filter(name => name.toLowerCase().includes(query))
+    .forEach(name => {
+      const li = document.createElement('li');
+      li.textContent = name;
+      studentList.appendChild(li);
+    });
+}
+
+// Initial render on page load
+renderStudents();

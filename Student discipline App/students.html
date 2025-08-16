@@ -4,19 +4,101 @@
   <meta charset="UTF-8">
   <title>Manage Students</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f7;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+      animation: fadeInDown 0.8s ease-out;
+    }
+
+    .table-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      animation: bounceIn 0.6s ease;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f7f9fb;
+      color: #333;
+    }
+
+    tr:hover {
+      background-color: #f0f4f7;
+    }
+
+    @keyframes bounceIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      60% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
-  <h2>Student Manager</h2>
 
-  <input type="text" id="searchInput" placeholder="Search students...">
+  <h1>👩‍🏫 Student List</h1>
 
-  <form id="studentForm">
-    <input type="text" id="studentInput" placeholder="Enter student name" required>
-    <button type="submit">Add Student</button>
-  </form>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Student ID</th>
+          <th>Date of Birth</th>
+          <th>Grade</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Anna Mvula</td>
+          <td>ST001</td>
+          <td>2009-03-15</td>
+          <td>Grade 7</td>
+        </tr>
+        <tr>
+          <td>Peter Kamati</td>
+          <td>ST002</td>
+          <td>2010-06-22</td>
+          <td>Grade 6</td>
+        </tr>
+        <tr>
+          <td>Lucia Amadhila</td>
+          <td>ST003</td>
+          <td>2008-11-05</td>
+          <td>Grade 8</td>
+        </tr>
+        <!-- Add more rows as needed -->
+      </tbody>
+    </table>
+  </div>
 
-  <ul id="studentList"></ul>
-
-  <script src="script.js"></script>
 </body>
 </html>

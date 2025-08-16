@@ -73,6 +73,14 @@
 </head>
 <body>
 
+  <script>
+    const username = localStorage.getItem('teacherUsername');
+    if (!username) {
+      alert('Please log in first.');
+      window.location.href = 'signup.html';
+    }
+  </script>
+
   <h1>🎓 Teacher Dashboard</h1>
 
   <div class="dashboard-grid">

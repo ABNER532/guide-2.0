@@ -1,24 +1,20 @@
-// signup.js
+const signupForm = document.getElementById('signupForm');
 
-document.getElementById('createAccountForm').addEventListener('submit', function(e) {
+signupForm.addEventListener('submit', function (e) {
   e.preventDefault();
 
-  const username = document.getElementById('newUsername').value.trim();
-  const password = document.getElementById('newPassword').value;
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value;
 
-  // load existing users or start fresh
-  const users = JSON.parse(localStorage.getItem('users') || '{}');
-
-  // prevent overwriting an existing account
-  if (users[username]) {
-    alert('Username already exists. Please choose another.');
+  if (username === '' || password === '') {
+    alert('Please fill in all fields.');
     return;
   }
 
-  // add the new user and persist
-  users[username] = password;
-  localStorage.setItem('users', JSON.stringify(users));
+  // Save teacher credentials (for demo purposes only — not secure!)
+  localStorage.setItem('teacherUsername', username);
+  localStorage.setItem('teacherPassword', password);
 
-  alert('Account created! Please log in.');
-  window.location.href = 'teacherlogin.html';
+  // Redirect to dashboard
+  window.location.href = 'teacher-dashboard.html';
 });
