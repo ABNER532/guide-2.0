@@ -1,16 +1,20 @@
-document.getElementById("loginForm").addEventListener("submit", function(e) {
+// teacherlogin.js
+
+document.getElementById('loginForm').addEventListener('submit', function(e) {
   e.preventDefault();
 
-  const inputUser = document.getElementById("username").value;
-  const inputPass = document.getElementById("password").value;
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value;
 
-  const storedUser = localStorage.getItem("savedUser");
-  const storedPass = localStorage.getItem("savedPass");
+  // load the users map
+  const users = JSON.parse(localStorage.getItem('users') || '{}');
 
-  if (inputUser === storedUser && inputPass === storedPass) {
-    alert("Login successful!");
-    window.location.href = "dashboard.html"; // replace with your next page
+  // validate credentials
+  if (users[username] === password) {
+    localStorage.setItem('currentUser', username);
+    alert('Login successful!');
+    window.location.href = 'dashboard.html';
   } else {
-    alert("Login failed. Check your username or password.");
+    alert('Invalid username or password.');
   }
 });

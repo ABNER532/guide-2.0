@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GUIDE Welcome</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #eef3f8;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    @keyframes fadeUp {
+      0%   { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo {
+      width: 180px;
+      height: auto;
+      margin-bottom: 25px;
+      border-radius: 12px;
+      animation: fadeUp 1s ease forwards;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.1) rotate(3deg);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      font-size: 28px;
+      color: #1a1a1a;
+      margin-bottom: 35px;
+      letter-spacing: 1px;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards;
+      animation-delay: 0.3s;
+    }
+
+    .button-container {
+      display: flex;
+      gap: 16px;
+      width: 320px;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards;
+      animation-delay: 0.6s;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 14px 0;
+      background-color: #0078d7;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn:hover {
+      background-color: #005fa3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,120,215,0.4);
+    }
+  </style>
+</head>
+<body>
+
+  <img
+    src="./a logo called GUIDE.gpn"alt="GUIDE Logo" class="logo"
+  >
+
+  <h1>WELCOME TEACHER</h1>
+
+  <div class="button-container">
+    <button class="btn" onclick="location.href='signup.html'">
+      Create Account
+    </button>
+    <button class="btn" onclick="location.href='teacherlogin.html'">
+      Login
+    </button>
+  </div>
+
+  <script>
+    const logo = document.getElementById('logo');
+
+    logo.addEventListener('error', () => {
+      console.error('Logo failed to load:', logo.src);
+      // try lowercase fallback
+      if (!logo.dataset.triedLowercase) {
+        logo.dataset.triedLowercase = 'true';
+        logo.src = './guide.png';
+      } else {
+        // final fallback placeholder
+        logo.src = 'data:image/svg+xml;charset=UTF-8,\
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180">\
+<rect width="180" height="180" fill="#ccc"/>\
+<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" \
+font-family="Segoe UI" font-size="16" fill="#666">Logo Missing</text>\
+</svg>';
+      }
+    });
+  </script>
+
+</body>
+</html>

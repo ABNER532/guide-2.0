@@ -1,12 +1,24 @@
-document.getElementById("createAccountForm").addEventListener("submit", function(e) {
+// signup.js
+
+document.getElementById('createAccountForm').addEventListener('submit', function(e) {
   e.preventDefault();
 
-  const newUser = document.getElementById("newUsername").value;
-  const newPass = document.getElementById("newPassword").value;
+  const username = document.getElementById('newUsername').value.trim();
+  const password = document.getElementById('newPassword').value;
 
-  localStorage.setItem("savedUser", newUser);
-  localStorage.setItem("savedPass", newPass);
+  // load existing users or start fresh
+  const users = JSON.parse(localStorage.getItem('users') || '{}');
 
-  alert("Account created successfully!");
-  window.location.href = "login.html"; // sends user to login page
+  // prevent overwriting an existing account
+  if (users[username]) {
+    alert('Username already exists. Please choose another.');
+    return;
+  }
+
+  // add the new user and persist
+  users[username] = password;
+  localStorage.setItem('users', JSON.stringify(users));
+
+  alert('Account created! Please log in.');
+  window.location.href = 'teacherlogin.html';
 });
