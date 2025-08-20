@@ -129,9 +129,17 @@
 </head>
 <body>
 
-  <h1>👩‍🏫 Student List</h1>
+  <h1>👩‍🏫 Students List</h1>
 
   <div class="table-container">
+
+    <div class="form-row">
+      <input type="text" id="name" placeholder="Name">
+      <input type="text" id="studentId" placeholder="Student ID">
+      <input type="date" id="dob" placeholder="Date of Birth">
+      <input type="text" id="grade" placeholder="Grade">
+      <button id="addStudentBtn" type="button">Add Student</button>
+    </div>
 
     <div class="search-bar">
       <input type="text" id="searchInput" placeholder="Search students..." oninput="filterStudents()">
@@ -151,17 +159,11 @@
         <!-- Rows will be loaded dynamically -->
       </tbody>
     </table>
-
-    <div class="form-row">
-      <input type="text" id="name" placeholder="Name">
-      <input type="text" id="studentId" placeholder="Student ID">
-      <input type="date" id="dob" placeholder="Date of Birth">
-      <input type="text" id="grade" placeholder="Grade">
-      <button onclick="addStudent()">Add Student</button>
-    </div>
   </div>
 
   <script>
+    let editIndex = null;
+
     function loadStudents() {
       const students = JSON.parse(localStorage.getItem('students')) || [];
       const tbody = document.querySelector('#studentTable tbody');
@@ -170,12 +172,12 @@
       students.forEach((student, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td contenteditable="true" oninput="updateStudent(${index}, 'name', this.innerText)">${student.name}</td>
-          <td contenteditable="true" oninput="updateStudent(${index}, 'id', this.innerText)">${student.id}</td>
-          <td contenteditable="true" oninput="updateStudent(${index}, 'dob', this.innerText)">${student.dob}</td>
-          <td contenteditable="true" oninput="updateStudent(${index}, 'grade', this.innerText)">${student.grade}</td>
+          <td>${student.name}</td>
+          <td>${student.id}</td>
+          <td>${student.dob}</td>
+          <td>${student.grade}</td>
           <td>
-            <button class="edit-btn" onclick="saveStudents()">Save</button>
+            <button class="edit-btn" onclick="startEditStudent(${index})">Edit</button>
             <button class="delete-btn" onclick="confirmDelete(${index})">Delete</button>
           </td>
         `;
@@ -195,7 +197,14 @@
       }
 
       const students = JSON.parse(localStorage.getItem('students')) || [];
-      students.push({ name, id, dob, grade });
+
+      if (editIndex !== null) {
+        students[editIndex] = { name, id, dob, grade };
+        editIndex = null;
+      } else {
+        students.push({ name, id, dob, grade });
+      }
+
       localStorage.setItem('students', JSON.stringify(students));
 
       document.getElementById('name').value = '';
@@ -206,14 +215,13 @@
       loadStudents();
     }
 
-    function updateStudent(index, field, value) {
+    function startEditStudent(index) {
       const students = JSON.parse(localStorage.getItem('students')) || [];
-      students[index][field] = value;
-      localStorage.setItem('students', JSON.stringify(students));
-    }
-
-    function saveStudents() {
-      alert("Changes saved!");
+      document.getElementById('name').value = students[index].name;
+      document.getElementById('studentId').value = students[index].id;
+      document.getElementById('dob').value = students[index].dob;
+      document.getElementById('grade').value = students[index].grade;
+      editIndex = index;
     }
 
     function confirmDelete(index) {
@@ -244,8 +252,6 @@
       });
     }
 
+    document.getElementById('addStudentBtn').addEventListener('click', addStudent);
     window.onload = loadStudents;
   </script>
-
-</body>
-</html>

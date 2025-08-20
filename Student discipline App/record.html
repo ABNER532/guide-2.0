@@ -3,39 +3,140 @@
 <head>
   <meta charset="UTF-8">
   <title>Record Behaviour</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; }
+    .container { max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);}
+    h2 { text-align: center; }
+    form, table { width: 100%; }
+    input, select, button { padding: 8px; margin: 8px 0; border-radius: 4px; border: 1px solid #ccc; }
+    button { background: #4285f4; color: #fff; border: none; cursor: pointer; }
+    button:hover { background: #357ae8; }
+    table { border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
+    th { background: #f7f9fb; }
+    .edit-btn { background: #ffa500; }
+    .edit-btn:hover { background: #cc8400; }
+    .delete-btn { background: #f44336; }
+    .delete-btn:hover { background: #d32f2f; }
+  </style>
 </head>
 <body>
-  <h2>Record Student Behaviour</h2>
+  <div class="container">
+    <h2>Record Learner Behaviour</h2>
+    <form id="behaviourForm">
+      <input type="text" id="studentId" placeholder="Student ID" required>
+      <input type="date" id="date" required>
+      <select id="type" required>
+        <option value="">Select Behaviour Type</option>
+        <option value="Positive">Positive</option>
+        <option value="Negative">Negative</option>
+        <option value="Neutral">Neutral</option>
+      </select>
+      <input type="text" id="behaviour" placeholder="Behaviour" required>
+      <input type="text" id="details" placeholder="Details" required>
+      <button type="submit" id="submitBtn">Submit Behaviour</button>
+      <button type="button" id="updateBtn" style="display:none;">Update Behaviour</button>
+      <button type="button" id="cancelBtn" style="display:none;">Cancel</button>
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>Student ID</th>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Behaviour</th>
+          <th>Details</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="behaviourTable"></tbody>
+    </table>
+  </div>
+  <script>
+    let editIndex = null;
 
-  <form id="behaviourForm">
-    <!-- Student Name -->
-    <label for="studentName">Student Name:</label>
-    <input type="text" id="studentName" placeholder="Enter student name" required>
+    function loadBehaviours() {
+      const behaviours = JSON.parse(localStorage.getItem('behaviours')) || [];
+      const tbody = document.getElementById('behaviourTable');
+      tbody.innerHTML = '';
+      behaviours.forEach((b, i) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${b.studentId}</td>
+          <td>${b.date}</td>
+          <td>${b.type}</td>
+          <td>${b.behaviour}</td>
+          <td>${b.details}</td>
+          <td>
+            <button class="edit-btn" onclick="editBehaviour(${i})">Edit</button>
+            <button class="delete-btn" onclick="deleteBehaviour(${i})">Delete</button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
 
-    <!-- Behaviour Type -->
-    <label for="behaviourType">Behaviour Type:</label>
-    <select id="behaviourType" required>
-      <option value="">Select type</option>
-      <option value="Positive">Positive</option>
-      <option value="Neutral">Neutral</option>
-      <option value="Negative">Negative</option>
-    </select>
+    document.getElementById('behaviourForm').onsubmit = function(e) {
+      e.preventDefault();
+      const studentId = document.getElementById('studentId').value.trim();
+      const date = document.getElementById('date').value.trim();
+      const type = document.getElementById('type').value;
+      const behaviour = document.getElementById('behaviour').value.trim();
+      const details = document.getElementById('details').value.trim();
 
-    <!-- Notes -->
-    <label for="notes">Notes:</label>
-    <textarea id="notes" placeholder="Enter notes..." required></textarea>
+      if (!studentId || !date || !type || !behaviour || !details) {
+        alert("Please fill in all fields.");
+        return;
+      }
 
-    <!-- Date -->
-    <label for="date">Date:</label>
-    <input type="date" id="date">
+      let behaviours = JSON.parse(localStorage.getItem('behaviours')) || [];
+      if (editIndex !== null) {
+        behaviours[editIndex] = { studentId, date, type, behaviour, details };
+        editIndex = null;
+        document.getElementById('submitBtn').style.display = '';
+        document.getElementById('updateBtn').style.display = 'none';
+        document.getElementById('cancelBtn').style.display = 'none';
+      } else {
+        behaviours.push({ studentId, date, type, behaviour, details });
+      }
+      localStorage.setItem('behaviours', JSON.stringify(behaviours));
+      this.reset();
+      loadBehaviours();
+    };
 
-    <!-- Submit -->
-    <button type="submit">Submit Behaviour</button>
-  </form>
+    window.editBehaviour = function(index) {
+      const behaviours = JSON.parse(localStorage.getItem('behaviours')) || [];
+      const b = behaviours[index];
+      document.getElementById('studentId').value = b.studentId;
+      document.getElementById('date').value = b.date;
+      document.getElementById('type').value = b.type;
+      document.getElementById('behaviour').value = b.behaviour;
+      document.getElementById('details').value = b.details;
+      editIndex = index;
+      document.getElementById('submitBtn').style.display = 'none';
+      document.getElementById('updateBtn').style.display = '';
+      document.getElementById('cancelBtn').style.display = '';
+    };
 
-  <ul id="behaviourList"></ul>
+    window.deleteBehaviour = function(index) {
+      if (!confirm("Delete this behaviour?")) return;
+      let behaviours = JSON.parse(localStorage.getItem('behaviours')) || [];
+      behaviours.splice(index, 1);
+      localStorage.setItem('behaviours', JSON.stringify(behaviours));
+      loadBehaviours();
+    };
 
-  <script src="record.js"></script>
-</body>
-</html>
+    document.getElementById('updateBtn').onclick = function() {
+      document.getElementById('behaviourForm').onsubmit(new Event('submit'));
+    };
+
+    document.getElementById('cancelBtn').onclick = function() {
+      editIndex = null;
+      document.getElementById('behaviourForm').reset();
+      document.getElementById('submitBtn').style.display = '';
+      document.getElementById('updateBtn').style.display = 'none';
+      document.getElementById('cancelBtn').style.display = 'none';
+    };
+
+    window.onload = loadBehaviours;
+  </script>
