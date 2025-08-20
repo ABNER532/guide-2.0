@@ -1,20 +1,20 @@
-// teacherlogin.js
+document.addEventListener('DOMContentLoaded', function () {
+  const loginForm = document.getElementById('loginForm');
 
-document.getElementById('loginForm').addEventListener('submit', function(e) {
-  e.preventDefault();
+  loginForm.addEventListener('submit', function (e) {
+    e.preventDefault();
 
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value;
+    const enteredUsername = document.getElementById('username').value.trim();
+    const enteredPassword = document.getElementById('password').value.trim();
 
-  // load the users map
-  const users = JSON.parse(localStorage.getItem('users') || '{}');
+    const storedUsername = localStorage.getItem('teacherUsername');
+    const storedPassword = localStorage.getItem('teacherPassword');
 
-  // validate credentials
-  if (users[username] === password) {
-    localStorage.setItem('currentUser', username);
-    alert('Login successful!');
-    window.location.href = 'dashboard.html';
-  } else {
-    alert('Invalid username or password.');
-  }
+    if (enteredUsername === storedUsername && enteredPassword === storedPassword) {
+      alert("Login successful!");
+      window.location.href = 'welcome-teacher.html';
+    } else {
+      alert("Invalid username or password.");
+    }
+  });
 });

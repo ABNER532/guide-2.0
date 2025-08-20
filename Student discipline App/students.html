@@ -14,7 +14,7 @@
 
     h1 {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       color: #333;
       animation: fadeInDown 0.8s ease-out;
     }
@@ -27,6 +27,19 @@
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       padding: 20px;
       animation: bounceIn 0.6s ease;
+    }
+
+    .search-bar {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .search-bar input {
+      width: 80%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
     }
 
     table {
@@ -50,6 +63,58 @@
       background-color: #f0f4f7;
     }
 
+    .form-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .form-row input {
+      flex: 1 1 200px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .form-row button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .form-row button:hover {
+      background-color: #45a049;
+    }
+
+    .edit-btn, .delete-btn {
+      background-color: #2196F3;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      margin-right: 5px;
+    }
+
+    .edit-btn:hover {
+      background-color: #1976D2;
+    }
+
+    .delete-btn {
+      background-color: #f44336;
+    }
+
+    .delete-btn:hover {
+      background-color: #d32f2f;
+    }
+
     @keyframes bounceIn {
       0% { transform: scale(0.5); opacity: 0; }
       60% { transform: scale(1.1); opacity: 1; }
@@ -67,38 +132,120 @@
   <h1>👩‍🏫 Student List</h1>
 
   <div class="table-container">
-    <table>
+
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search students..." oninput="filterStudents()">
+    </div>
+
+    <table id="studentTable">
       <thead>
         <tr>
           <th>Name</th>
           <th>Student ID</th>
           <th>Date of Birth</th>
           <th>Grade</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Anna Mvula</td>
-          <td>ST001</td>
-          <td>2009-03-15</td>
-          <td>Grade 7</td>
-        </tr>
-        <tr>
-          <td>Peter Kamati</td>
-          <td>ST002</td>
-          <td>2010-06-22</td>
-          <td>Grade 6</td>
-        </tr>
-        <tr>
-          <td>Lucia Amadhila</td>
-          <td>ST003</td>
-          <td>2008-11-05</td>
-          <td>Grade 8</td>
-        </tr>
-        <!-- Add more rows as needed -->
+        <!-- Rows will be loaded dynamically -->
       </tbody>
     </table>
+
+    <div class="form-row">
+      <input type="text" id="name" placeholder="Name">
+      <input type="text" id="studentId" placeholder="Student ID">
+      <input type="date" id="dob" placeholder="Date of Birth">
+      <input type="text" id="grade" placeholder="Grade">
+      <button onclick="addStudent()">Add Student</button>
+    </div>
   </div>
+
+  <script>
+    function loadStudents() {
+      const students = JSON.parse(localStorage.getItem('students')) || [];
+      const tbody = document.querySelector('#studentTable tbody');
+      tbody.innerHTML = '';
+
+      students.forEach((student, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td contenteditable="true" oninput="updateStudent(${index}, 'name', this.innerText)">${student.name}</td>
+          <td contenteditable="true" oninput="updateStudent(${index}, 'id', this.innerText)">${student.id}</td>
+          <td contenteditable="true" oninput="updateStudent(${index}, 'dob', this.innerText)">${student.dob}</td>
+          <td contenteditable="true" oninput="updateStudent(${index}, 'grade', this.innerText)">${student.grade}</td>
+          <td>
+            <button class="edit-btn" onclick="saveStudents()">Save</button>
+            <button class="delete-btn" onclick="confirmDelete(${index})">Delete</button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function addStudent() {
+      const name = document.getElementById('name').value.trim();
+      const id = document.getElementById('studentId').value.trim();
+      const dob = document.getElementById('dob').value.trim();
+      const grade = document.getElementById('grade').value.trim();
+
+      if (!name || !id || !dob || !grade) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      const students = JSON.parse(localStorage.getItem('students')) || [];
+      students.push({ name, id, dob, grade });
+      localStorage.setItem('students', JSON.stringify(students));
+
+      document.getElementById('name').value = '';
+      document.getElementById('studentId').value = '';
+      document.getElementById('dob').value = '';
+      document.getElementById('grade').value = '';
+
+      loadStudents();
+    }
+
+    function updateStudent(index, field, value) {
+      const students = JSON.parse(localStorage.getItem('students')) || [];
+      students[index][field] = value;
+      localStorage.setItem('students', JSON.stringify(students));
+    }
+
+    function saveStudents() {
+      alert("Changes saved!");
+    }
+
+    function confirmDelete(index) {
+      const confirmDelete = confirm("Are you sure you want to delete this student?");
+      if (!confirmDelete) return;
+
+      const password = prompt("Enter your password to confirm deletion:");
+      const storedPassword = localStorage.getItem('teacherPassword');
+
+      if (password === storedPassword) {
+        const students = JSON.parse(localStorage.getItem('students')) || [];
+        students.splice(index, 1);
+        localStorage.setItem('students', JSON.stringify(students));
+        loadStudents();
+        alert("Student deleted.");
+      } else {
+        alert("Incorrect password. Deletion cancelled.");
+      }
+    }
+
+    function filterStudents() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const rows = document.querySelectorAll('#studentTable tbody tr');
+
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(input) ? '' : 'none';
+      });
+    }
+
+    window.onload = loadStudents;
+  </script>
 
 </body>
 </html>

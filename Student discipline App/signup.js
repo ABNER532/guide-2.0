@@ -1,20 +1,20 @@
+document.addEventListener('DOMContentLoaded', function () {
 const signupForm = document.getElementById('signupForm');
 
-signupForm.addEventListener('submit', function (e) {
-  e.preventDefault();
+  signupForm.addEventListener('submit', function (e) {
+    e.preventDefault();
 
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value;
+    const username = document.getElementById('newUsername').value.trim();
+    const password = document.getElementById('newPassword').value.trim();
 
-  if (username === '' || password === '') {
-    alert('Please fill in all fields.');
-    return;
-  }
+    if (username && password) {
+      localStorage.setItem('teacherUsername', username);
+      localStorage.setItem('teacherPassword', password);
 
-  // Save teacher credentials (for demo purposes only — not secure!)
-  localStorage.setItem('teacherUsername', username);
-  localStorage.setItem('teacherPassword', password);
-
-  // Redirect to dashboard
-  window.location.href = 'teacher-dashboard.html';
+      alert("Account created successfully! Please log in.");
+      window.location.href = 'teacherlogin.html'; // ✅ Redirect to login page
+    } else {
+      alert("Please fill in both fields.");
+    }
+  });
 });
